@@ -1,3 +1,6 @@
+"""
+Константы всего проекта
+"""
 import pygame
 
 size = width, height = 800, 800
