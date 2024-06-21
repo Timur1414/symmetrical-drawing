@@ -1,9 +1,13 @@
 """
 Файл основной логики проекта
 """
+import datetime
+from ctypes import POINTER, WINFUNCTYPE, windll
+from ctypes.wintypes import RECT, HWND, BOOL
 from math import sqrt, acos, pi, cos, sin
 import pygame
 from constants import size, width, height, center, BLACK, WHITE
+from PIL import ImageGrab
 
 
 class Game:
@@ -40,12 +44,30 @@ class Game:
                 self.points.append([y, x])
                 self.points.append([-y, x])
 
+    @staticmethod
+    def make_screenshot():
+        hwnd = pygame.display.get_wm_info()["window"]
+        prototype = WINFUNCTYPE(BOOL, HWND, POINTER(RECT))
+        paramflags = (1, "hwnd"), (2, "lprect")
+        GetWindowRect = prototype(("GetWindowRect", windll.user32), paramflags)
+        rect = GetWindowRect(hwnd)
+        x = rect.left + 8
+        y = rect.top
+        ss_region = (x, y, x + width, y + height + 30)
+        ss_img = ImageGrab.grab(ss_region)
+        now = str(datetime.datetime.now())[:-7].replace(':', '.')
+        filename = "images/" + now + ".jpg"
+        ss_img.save(filename)
+        print(f'screenshot "{filename}" saved')
+
     def process_keyboard(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_EQUALS or event.key == pygame.K_KP_PLUS:
                 self.count_lines = min(10, self.count_lines + 2)
             elif event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
                 self.count_lines = max(2, self.count_lines - 2)
+            elif event.key == pygame.K_PRINTSCREEN or event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                self.make_screenshot()
 
     def process_events(self):
         for event in pygame.event.get():
