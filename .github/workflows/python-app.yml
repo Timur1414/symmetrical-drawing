@@ -22,7 +22,15 @@ jobs:
         pip install pyinstaller
     - name: Make artifacts
       run: |
+        mkdir artifacts
         pyinstaller --onefile --noconsole main.py
+        mv dist/main artifacts
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: |
+          artifacts
 
   artifacts_windows:
     runs-on: windows-latest
@@ -39,4 +47,12 @@ jobs:
         pip install pyinstaller
     - name: Make artifacts
       run: |
+        mkdir artifacts
         pyinstaller --onefile --noconsole main.py
+        move dist/main.exe artifacts
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: |
+          artifacts
