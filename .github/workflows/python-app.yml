@@ -30,7 +30,7 @@ jobs:
       with:
         name: artifacts
         path: |
-          artifacts
+          artifacts/linux
 
   artifacts_windows:
     runs-on: windows-latest
@@ -56,4 +56,4 @@ jobs:
       with:
         name: artifacts
         path: |
-          artifacts
+          artifacts/windows
