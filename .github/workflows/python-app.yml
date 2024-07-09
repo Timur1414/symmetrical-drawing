@@ -48,6 +48,7 @@ jobs:
         pip install pyinstaller
     - name: Make artifacts
       run: |
+        mkdir artifacts/windows
         pyinstaller --onefile --noconsole main.py
         move dist/main.exe artifacts/windows
     - name: Archive artifacts
