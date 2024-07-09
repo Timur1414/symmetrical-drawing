@@ -24,7 +24,7 @@ jobs:
       run: |
         mkdir artifacts
         pyinstaller --onefile --noconsole main.py
-        mv dist/main artifacts
+        mv dist/main artifacts/linux
     - name: Archive artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -34,6 +34,7 @@ jobs:
 
   artifacts_windows:
     runs-on: windows-latest
+    needs: artifacts_linux
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
@@ -47,9 +48,8 @@ jobs:
         pip install pyinstaller
     - name: Make artifacts
       run: |
-        mkdir artifacts
         pyinstaller --onefile --noconsole main.py
-        move dist/main.exe artifacts
+        move dist/main.exe artifacts/windows
     - name: Archive artifacts
       uses: actions/upload-artifact@v4
       with:
