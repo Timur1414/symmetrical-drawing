@@ -28,7 +28,7 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifacts_linux
         path: |
           artifacts/linux
 
@@ -54,6 +54,6 @@ jobs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifacts_windows
         path: |
           artifacts/windows
